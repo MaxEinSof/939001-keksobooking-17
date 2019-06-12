@@ -3,8 +3,8 @@
 var typeLodging = ['palace', 'flat', 'house', 'bungalo'];
 
 function getRandomInteger(min, max) {
-  var rand = min - 0.5 + Math.random() * (max - min + 1)
-  return  Math.round(rand);
+  var rand = min - 0.5 + Math.random() * (max - min + 1);
+  return Math.round(rand);
 }
 
 function getRandomElement(array) {
@@ -19,7 +19,7 @@ function generateSimilarAd(index) {
     location: {x: getRandomInteger(0, 1200), y: getRandomInteger(130, 630)}
   };
   return similarAd;
-};
+}
 
 function generateData() {
   var similarAds = [];
@@ -27,6 +27,6 @@ function generateData() {
     similarAds[j] = generateSimilarAd(i);
   }
   return similarAds;
-};
+}
 
 var data = generateData();
