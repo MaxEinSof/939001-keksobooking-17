@@ -31,26 +31,33 @@ function generateData() {
 
 var data = generateData();
 
+var map = document.querySelector('.map');
+var mapPins = map.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
-var mapPins = document.querySelector('.map__pins');
+
+function activateMap() {
+  map.classList.remove('map--faded');
+}
+
+activateMap();
 
 function generatePin(similarAd) {
   var pin = pinTemplate.cloneNode(true);
-  pin.style = 'left: ' + (similarAd.location.x - (PIN_WIDTH / 2)) + 'px; top: ' + (similarAd.location.y - PIN_HEIGHT) + 'px;';
+  pin.style.left = similarAd.location.x - PIN_WIDTH / 2 + 'px';
+  pin.style.top = similarAd.location.y - PIN_HEIGHT + 'px';
   pin.children[0].src = similarAd.author.avatar;
   pin.children[0].alt = 'Заголовок объявления';
   return pin;
 }
 
-function addPins() {
+function addPins(array) {
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < data.length; i++) {
-    fragment.appendChild(generatePin(data[i]));
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(generatePin(array[i]));
   }
   mapPins.appendChild(fragment);
 }
 
-addPins();
-
+addPins(data);
