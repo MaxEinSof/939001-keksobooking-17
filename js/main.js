@@ -39,6 +39,7 @@ var PIN_HEIGHT = 70;
 
 function activateMap() {
   map.classList.remove('map--faded');
+  enableInputs(mapFormInputs);
 }
 
 function generatePin(similarAd) {
@@ -58,7 +59,7 @@ function addPins(array) {
   mapPins.appendChild(fragment);
 }
 
-///////////////////////////////////// Второе задание /////////////////////////////////////
+// ------------------------------------- Второе задание ------------------------------------- //
 
 var MAIN_PIN_WIDTH = 65;
 var MAIN_PIN_HEIGHT = 65;
@@ -71,7 +72,7 @@ var addressInput = adForm.querySelector('#address');
 
 disableInputs(adFormInputs);
 disableInputs(mapFormInputs);
-setMainPinPosition();
+setAddress();
 
 mapPinMain.addEventListener('click', onPinClick);
 mapPinMain.addEventListener('mouseup', onPinMouseup);
@@ -90,20 +91,27 @@ function enableInputs(formInputs) {
 
 function activateAdForm() {
   adForm.classList.remove('ad-form--disabled');
+  enableInputs(adFormInputs);
 }
 
 function onPinClick() {
   activateMap();
   addPins(data);
   activateAdForm();
-  enableInputs(adFormInputs);
-  enableInputs(mapFormInputs);
 }
 
 function onPinMouseup() {
-  setMainPinPosition();
+  setAddress();
 }
 
-function setMainPinPosition() {
-  addressInput.value = (mapPinMain.offsetLeft + Math.round(MAIN_PIN_WIDTH / 2)) + ', ' + (mapPinMain.offsetTop + MAIN_PIN_HEIGHT);
+function setAddress() {
+  var pinCoords = getCoords();
+  addressInput.value = pinCoords.x + ', ' + pinCoords.y;
+}
+
+function getCoords() {
+  return {
+    x: mapPinMain.offsetLeft + Math.round(MAIN_PIN_WIDTH / 2),
+    y: mapPinMain.offsetTop + MAIN_PIN_HEIGHT
+  };
 }
