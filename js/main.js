@@ -69,10 +69,11 @@ var mapForm = map.querySelector('.map__filters');
 var mapFormInputs = mapForm.querySelectorAll('input, select');
 var mapPinMain = mapPins.querySelector('.map__pin--main');
 var addressInput = adForm.querySelector('#address');
+var mainPinCoords = getCoords();
 
 disableInputs(adFormInputs);
 disableInputs(mapFormInputs);
-setAddress();
+setAddress(mainPinCoords);
 
 mapPinMain.addEventListener('click', onPinClick);
 mapPinMain.addEventListener('mouseup', onPinMouseup);
@@ -101,11 +102,10 @@ function onPinClick() {
 }
 
 function onPinMouseup() {
-  setAddress();
+  setAddress(mainPinCoords);
 }
 
-function setAddress() {
-  var pinCoords = getCoords();
+function setAddress(pinCoords) {
   addressInput.value = pinCoords.x + ', ' + pinCoords.y;
 }
 
