@@ -39,9 +39,8 @@ var PIN_HEIGHT = 70;
 
 function activateMap() {
   map.classList.remove('map--faded');
+  enableInputs(mapFormInputs);
 }
-
-activateMap();
 
 function generatePin(similarAd) {
   var pin = pinTemplate.cloneNode(true);
@@ -60,4 +59,59 @@ function addPins(array) {
   mapPins.appendChild(fragment);
 }
 
-addPins(data);
+// ------------------------------------- Второе задание ------------------------------------- //
+
+var MAIN_PIN_WIDTH = 65;
+var MAIN_PIN_HEIGHT = 65;
+var adForm = document.querySelector('.ad-form');
+var adFormInputs = adForm.querySelectorAll('input, select, textarea');
+var mapForm = map.querySelector('.map__filters');
+var mapFormInputs = mapForm.querySelectorAll('input, select');
+var mapPinMain = mapPins.querySelector('.map__pin--main');
+var addressInput = adForm.querySelector('#address');
+var mainPinCoords = getCoords();
+
+disableInputs(adFormInputs);
+disableInputs(mapFormInputs);
+setAddress(mainPinCoords);
+
+mapPinMain.addEventListener('click', onPinClick);
+mapPinMain.addEventListener('mouseup', onPinMouseup);
+
+function disableInputs(formInputs) {
+  for (var i = 0; i < formInputs.length; i++) {
+    formInputs[i].disabled = true;
+  }
+}
+
+function enableInputs(formInputs) {
+  for (var i = 0; i < formInputs.length; i++) {
+    formInputs[i].disabled = false;
+  }
+}
+
+function activateAdForm() {
+  adForm.classList.remove('ad-form--disabled');
+  enableInputs(adFormInputs);
+}
+
+function onPinClick() {
+  activateMap();
+  addPins(data);
+  activateAdForm();
+}
+
+function onPinMouseup() {
+  setAddress(mainPinCoords);
+}
+
+function setAddress(pinCoords) {
+  addressInput.value = pinCoords.x + ', ' + pinCoords.y;
+}
+
+function getCoords() {
+  return {
+    x: mapPinMain.offsetLeft + Math.round(MAIN_PIN_WIDTH / 2),
+    y: mapPinMain.offsetTop + MAIN_PIN_HEIGHT
+  };
+}
