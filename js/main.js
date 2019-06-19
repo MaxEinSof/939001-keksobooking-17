@@ -146,7 +146,7 @@ var MIN_COORD_Y = 130;
 var MAX_COORD_Y = 630;
 var isFirstMove = true;
 
-mapPinMain.addEventListener('mousedown', function(evt) {
+mapPinMain.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
   var startCoords = {
