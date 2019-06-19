@@ -127,21 +127,19 @@ var minPrice = {
   palace: 10000
 };
 var adFormTime = adForm.querySelector('.ad-form__element--time');
-var timeinSelect = adForm.querySelector('#timein');
-var timeoutSelect = adForm.querySelector('#timeout');
+var timeInSelect = adForm.querySelector('#timein');
+var timeOutSelect = adForm.querySelector('#timeout');
 
 adTypeSelect.addEventListener('click', onTypeSelectClick);
 adFormTime.addEventListener('click', onAdFormTimeClick);
 
 function onTypeSelectClick() {
-  adPriceInput.min = minPrice[adTypeSelect.value];
-  adPriceInput.placeholder = minPrice[adTypeSelect.value];
+  var minValue = minPrice[adTypeSelect.value];
+  adPriceInput.min = minValue;
+  adPriceInput.placeholder = minValue;
 }
 
 function onAdFormTimeClick(evt) {
-  if (evt.target === timeinSelect) {
-    timeoutSelect.value = timeinSelect.value;
-  } else {
-    timeinSelect.value = timeoutSelect.value;
-  }
+  var changedSelect = evt.target === timeInSelect ? timeOutSelect : timeInSelect;
+  changedSelect.value = evt.target.value;
 }
