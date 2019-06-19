@@ -115,3 +115,31 @@ function getCoords() {
     y: mapPinMain.offsetTop + MAIN_PIN_HEIGHT
   };
 }
+
+// ------------------------------------- Третье задание ------------------------------------- //
+
+var adPriceInput = adForm.querySelector('#price');
+var adTypeSelect = adForm.querySelector('#type');
+var minPrice = {
+  bungalo: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000
+};
+var adFormTime = adForm.querySelector('.ad-form__element--time');
+var timeInSelect = adForm.querySelector('#timein');
+var timeOutSelect = adForm.querySelector('#timeout');
+
+adTypeSelect.addEventListener('click', onTypeSelectClick);
+adFormTime.addEventListener('click', onAdFormTimeClick);
+
+function onTypeSelectClick() {
+  var minValue = minPrice[adTypeSelect.value];
+  adPriceInput.min = minValue;
+  adPriceInput.placeholder = minValue;
+}
+
+function onAdFormTimeClick(evt) {
+  var changedSelect = evt.target === timeInSelect ? timeOutSelect : timeInSelect;
+  changedSelect.value = evt.target.value;
+}
