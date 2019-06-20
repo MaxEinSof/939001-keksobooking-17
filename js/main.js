@@ -144,7 +144,6 @@ var MIN_COORD_X = 0;
 var MAX_COORD_X = 1200;
 var MIN_COORD_Y = 130;
 var MAX_COORD_Y = 630;
-var isFirstMove = true;
 
 mapPinMain.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
@@ -160,9 +159,8 @@ mapPinMain.addEventListener('mousedown', function (evt) {
   function onMouseMove(moveEvt) {
     moveEvt.preventDefault();
 
-    if (isFirstMove) {
+    if (isMapActive() === false) {
       activatePage();
-      isFirstMove = false;
     }
 
     var pinShift = {
@@ -178,7 +176,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
     var currentCoordX = mapPinMain.offsetLeft - pinShift.x;
     var currentCoordY = mapPinMain.offsetTop - pinShift.y;
 
-    if (currentCoordX > MIN_COORD_X && currentCoordX < (MAX_COORD_X - MAIN_PIN_WIDTH)) {
+    if (currentCoordX > MIN_COORD_X && currentCoordX < MAX_COORD_X - MAIN_PIN_WIDTH) {
       mapPinMain.style.left = currentCoordX + 'px';
     }
     if (currentCoordY > MIN_COORD_Y && currentCoordY < MAX_COORD_Y) {
@@ -199,3 +197,10 @@ mapPinMain.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mouseup', onMouseUp);
   }
 });
+
+function isMapActive() {
+  if (map.classList.contains('map--faded')) {
+    return false;
+  }
+  return true;
+}
