@@ -16,7 +16,8 @@ function generateSimilarAd(index) {
   var similarAd = {
     author: {avatar: 'img/avatars/user0' + index + '.png'},
     offer: {type: getRandomElement(typeLodging)},
-    location: {x: getRandomInteger(0, 1200), y: getRandomInteger(130, 630)}
+    location: {x: getRandomInteger(0, 1200), y: getRandomInteger(130, 630)},
+    pinId: index
   };
   return similarAd;
 }
@@ -75,9 +76,6 @@ disableInputs(adFormInputs);
 disableInputs(mapFormInputs);
 setAddress(mainPinCoords);
 
-mapPinMain.addEventListener('click', onPinClick);
-mapPinMain.addEventListener('mouseup', onPinMouseup);
-
 function disableInputs(formInputs) {
   for (var i = 0; i < formInputs.length; i++) {
     formInputs[i].disabled = true;
@@ -95,14 +93,10 @@ function activateAdForm() {
   enableInputs(adFormInputs);
 }
 
-function onPinClick() {
+function activatePage() {
   activateMap();
   addPins(data);
   activateAdForm();
-}
-
-function onPinMouseup() {
-  setAddress(mainPinCoords);
 }
 
 function setAddress(pinCoords) {
@@ -142,4 +136,68 @@ function onTypeSelectClick() {
 function onAdFormTimeClick(evt) {
   var changedSelect = evt.target === timeInSelect ? timeOutSelect : timeInSelect;
   changedSelect.value = evt.target.value;
+}
+
+// ------------------------------------- Четвёртое задание ------------------------------------- //
+
+var MIN_COORD_X = 0;
+var MAX_COORD_X = 1200;
+var MIN_COORD_Y = 130;
+var MAX_COORD_Y = 630;
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+
+  function onMouseMove(moveEvt) {
+    moveEvt.preventDefault();
+
+    if (!isMapActive()) {
+      activatePage();
+    }
+
+    var pinShift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    var currentCoordX = mapPinMain.offsetLeft - pinShift.x;
+    var currentCoordY = mapPinMain.offsetTop - pinShift.y;
+
+    if (currentCoordX > MIN_COORD_X && currentCoordX < MAX_COORD_X - MAIN_PIN_WIDTH) {
+      mapPinMain.style.left = currentCoordX + 'px';
+    }
+    if (currentCoordY > MIN_COORD_Y && currentCoordY < MAX_COORD_Y) {
+      mapPinMain.style.top = currentCoordY + 'px';
+    }
+
+    mainPinCoords = getCoords();
+
+    setAddress(mainPinCoords);
+  }
+
+  function onMouseUp(upEvt) {
+    upEvt.preventDefault();
+
+    setAddress(mainPinCoords);
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
+});
+
+function isMapActive() {
+  return !map.classList.contains('map--faded');
 }
