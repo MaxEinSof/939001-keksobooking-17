@@ -159,7 +159,7 @@ mapPinMain.addEventListener('mousedown', function (evt) {
   function onMouseMove(moveEvt) {
     moveEvt.preventDefault();
 
-    if (isMapActive() === false) {
+    if (!isMapActive()) {
       activatePage();
     }
 
@@ -199,8 +199,5 @@ mapPinMain.addEventListener('mousedown', function (evt) {
 });
 
 function isMapActive() {
-  if (map.classList.contains('map--faded')) {
-    return false;
-  }
-  return true;
+  return !map.classList.contains('map--faded');
 }
