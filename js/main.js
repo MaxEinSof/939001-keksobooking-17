@@ -2,14 +2,17 @@
 
 (function () {
   function activatePage() {
-    window.map.activateMap();
-    window.map.addPins(window.data);
-    window.form.activateAdForm();
+    if (!window.map.isMapActive()) {
+      window.map.activateMap();
+      window.map.addPins(window.data);
+      window.form.activateAdForm();
+    }
   }
 
-  window.map.setMouseDownCallback(activatePage);
-  window.map.setMouseMoveCallback(window.form.setAddress);
-  window.map.setMouseUpCallback(window.form.setAddress);
+  window.mainPin.setMouseDownCallback(activatePage);
+  window.mainPin.setMouseMoveCallback(window.form.setAddress);
+  window.mainPin.setMouseUpCallback(window.form.setAddress);
+  window.mainPin.setCheckTail(window.map.isMapActive);
 
-  window.form.setAddress(window.map.getCoords());
+  window.form.setAddress(window.mainPin.getCoords());
 })();
