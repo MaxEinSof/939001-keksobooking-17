@@ -26,8 +26,8 @@
   }
 
   window.map = {
-    activateMap: activateMap,
-    isMapActive: isMapActive,
+    activate: activateMap,
+    isActive: isMapActive,
     addPins: addPins
   };
 })();

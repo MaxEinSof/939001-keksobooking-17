@@ -13,8 +13,14 @@
   var mouseUpCallback = null;
   var hasTail = null;
 
-  mapPinMain.addEventListener('mousedown', function (evt) {
+  mapPinMain.addEventListener('mousedown', onPinMouseDown);
+
+  function onPinMouseDown(evt) {
     evt.preventDefault();
+
+    if (mouseDownCallback) {
+      mouseDownCallback();
+    }
 
     var startCoords = {
       x: evt.clientX,
@@ -26,10 +32,6 @@
 
     function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
-
-      if (mouseDownCallback) {
-        mouseDownCallback();
-      }
 
       var pinShift = {
         x: startCoords.x - moveEvt.clientX,
@@ -54,8 +56,7 @@
       }
 
       if (mouseMoveCallback) {
-        var mainPinCoords = getCoords();
-        mouseMoveCallback(mainPinCoords);
+        mouseMoveCallback();
       }
     }
 
@@ -63,14 +64,13 @@
       upEvt.preventDefault();
 
       if (mouseUpCallback) {
-        var mainPinCoords = getCoords();
-        mouseUpCallback(mainPinCoords);
+        mouseUpCallback();
       }
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     }
-  });
+  }
 
   function getCoords() {
     return {

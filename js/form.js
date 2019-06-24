@@ -42,7 +42,7 @@
   }
 
   window.form = {
-    activateAdForm: activateAdForm,
+    activate: activateAdForm,
     setAddress: setAddress
   };
 })();

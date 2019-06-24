@@ -2,17 +2,21 @@
 
 (function () {
   function activatePage() {
-    if (!window.map.isMapActive()) {
-      window.map.activateMap();
+    if (!window.map.isActive()) {
+      window.map.activate();
       window.map.addPins(window.data);
-      window.form.activateAdForm();
+      window.form.activate();
     }
   }
 
   window.mainPin.setMouseDownCallback(activatePage);
-  window.mainPin.setMouseMoveCallback(window.form.setAddress);
-  window.mainPin.setMouseUpCallback(window.form.setAddress);
-  window.mainPin.setCheckTail(window.map.isMapActive);
+  window.mainPin.setMouseMoveCallback(function () {
+    window.form.setAddress(window.mainPin.getCoords())
+  });
+  window.mainPin.setMouseUpCallback(function () {
+    window.form.setAddress(window.mainPin.getCoords())
+  });
+  window.mainPin.setCheckTail(window.map.isActive);
 
   window.form.setAddress(window.mainPin.getCoords());
 })();
