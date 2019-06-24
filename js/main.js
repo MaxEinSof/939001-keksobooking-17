@@ -11,10 +11,10 @@
 
   window.mainPin.setMouseDownCallback(activatePage);
   window.mainPin.setMouseMoveCallback(function () {
-    window.form.setAddress(window.mainPin.getCoords())
+    window.form.setAddress(window.mainPin.getCoords());
   });
   window.mainPin.setMouseUpCallback(function () {
-    window.form.setAddress(window.mainPin.getCoords())
+    window.form.setAddress(window.mainPin.getCoords());
   });
   window.mainPin.setCheckTail(window.map.isActive);
 
