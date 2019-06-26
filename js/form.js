@@ -26,6 +26,11 @@
     window.utility.enableInputs(adFormInputs);
   }
 
+  function deactivateAdForm() {
+    adForm.classList.add('ad-form--disabled');
+    window.utility.disableInputs(adFormInputs);
+  }
+
   function setAddress(pinCoords) {
     addressInput.value = pinCoords.x + ', ' + pinCoords.y;
   }
@@ -43,6 +48,7 @@
 
   window.form = {
     activate: activateAdForm,
+    deactivate: deactivateAdForm,
     setAddress: setAddress
   };
 })();

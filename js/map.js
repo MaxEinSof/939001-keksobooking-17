@@ -13,6 +13,11 @@
     window.utility.enableInputs(mapFormInputs);
   }
 
+  function deactivateMap() {
+    map.classList.add('map--faded');
+    window.utility.disableInputs(mapFormInputs);
+  }
+
   function isMapActive() {
     return !map.classList.contains('map--faded');
   }
@@ -27,6 +32,7 @@
 
   window.map = {
     activate: activateMap,
+    deactivate: deactivateMap,
     isActive: isMapActive,
     addPins: addPins
   };

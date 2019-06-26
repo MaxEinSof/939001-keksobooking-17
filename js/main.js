@@ -1,14 +1,6 @@
 'use strict';
 
 (function () {
-  function activatePage() {
-    if (!window.map.isActive()) {
-      window.map.activate();
-      window.map.addPins(window.data);
-      window.form.activate();
-    }
-  }
-
   window.mainPin.setMouseDownCallback(activatePage);
   window.mainPin.setMouseMoveCallback(function () {
     window.form.setAddress(window.mainPin.getCoords());
@@ -19,4 +11,22 @@
   window.mainPin.setCheckTail(window.map.isActive);
 
   window.form.setAddress(window.mainPin.getCoords());
+
+  function activatePage() {
+    if (!window.map.isActive()) {
+      window.map.activate();
+      window.form.activate();
+      window.load(onSuccess, onError);
+    }
+  }
+
+  function onSuccess(data) {
+    window.map.addPins(data);
+  }
+
+  function onError() {
+    window.map.deactivate();
+    window.form.deactivate();
+    window.message.showError();
+  }
 })();

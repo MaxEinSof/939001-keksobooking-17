@@ -10,8 +10,7 @@
     pin.style.left = similarAd.location.x - PIN_WIDTH / 2 + 'px';
     pin.style.top = similarAd.location.y - PIN_HEIGHT + 'px';
     pin.querySelector('img').src = similarAd.author.avatar;
-    pin.querySelector('img').alt = 'Заголовок объявления';
-    pin.dataset.pinId = similarAd.id;
+    pin.querySelector('img').alt = similarAd.offer.title;
     return pin;
   }
 
