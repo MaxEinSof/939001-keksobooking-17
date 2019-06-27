@@ -4,11 +4,11 @@
   var ESC_KEYCODE = 27;
   var page = document.querySelector('main');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-  var errorMessage = errorTemplate.cloneNode(true);
-  var errorButton = errorMessage.querySelector('.error__button');
+  var errorMessageElement = errorTemplate.cloneNode(true);
+  var errorButton = errorMessageElement.querySelector('.error__button');
 
-  function showErrorMessage() {
-    page.appendChild(errorMessage);
+  function showErrorMessageElement() {
+    page.appendChild(errorMessageElement);
 
     errorButton.addEventListener('click', onErrorButtonClick);
     document.addEventListener('keydown', onMessageEscPress);
@@ -32,13 +32,13 @@
     }
 
     function closeMessage() {
-      page.removeChild(errorMessage);
+      errorMessageElement.remove();
       document.removeEventListener('keydown', onMessageEscPress);
       document.removeEventListener('click', onMessageClick);
     }
   }
 
   window.message = {
-    showError: showErrorMessage
+    showError: showErrorMessageElement
   };
 })();

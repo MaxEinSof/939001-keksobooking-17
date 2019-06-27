@@ -25,7 +25,7 @@
   function addPins(array) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(window.generatePin(array[i]));
+      fragment.appendChild(window.generatePin(array[i], i));
     }
     mapPins.appendChild(fragment);
   }
