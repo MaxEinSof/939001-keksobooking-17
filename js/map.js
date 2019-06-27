@@ -13,6 +13,11 @@
     window.utility.enableInputs(mapFormInputs);
   }
 
+  function deactivateMap() {
+    map.classList.add('map--faded');
+    window.utility.disableInputs(mapFormInputs);
+  }
+
   function isMapActive() {
     return !map.classList.contains('map--faded');
   }
@@ -20,13 +25,14 @@
   function addPins(array) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(window.generatePin(array[i]));
+      fragment.appendChild(window.generatePin(array[i], i));
     }
     mapPins.appendChild(fragment);
   }
 
   window.map = {
     activate: activateMap,
+    deactivate: deactivateMap,
     isActive: isMapActive,
     addPins: addPins
   };
