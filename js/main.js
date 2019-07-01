@@ -21,7 +21,11 @@
   }
 
   function onSuccess(data) {
-    window.map.addPins(data);
+    window.map.addPins(window.filter.apply(data));
+    window.filter.activate();
+    window.filter.setSelectСhangeCallback(function () {
+      window.map.addPins(window.filter.apply(data));
+    });
   }
 
   function onError() {

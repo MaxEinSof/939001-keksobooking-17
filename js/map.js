@@ -10,7 +10,6 @@
 
   function activateMap() {
     map.classList.remove('map--faded');
-    window.utility.enableInputs(mapFormInputs);
   }
 
   function deactivateMap() {
@@ -23,6 +22,11 @@
   }
 
   function addPins(array) {
+    var oldPins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+    oldPins.forEach(function (oldPin) {
+      oldPin.remove();
+    });
+
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < array.length; i++) {
       fragment.appendChild(window.generatePin(array[i], i));
