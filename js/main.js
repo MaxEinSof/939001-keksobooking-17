@@ -25,10 +25,10 @@
     window.map.addPins(filteredData);
     window.filter.activate();
     window.filter.setСhangeCallback(
-      window.debounce(function () {
-        filteredData = window.filter.apply(data);
-        window.map.addPins(filteredData);
-      })
+        window.debounce(function () {
+          filteredData = window.filter.apply(data);
+          window.map.addPins(filteredData);
+        })
     );
   }
 
