@@ -3,10 +3,6 @@
 (function () {
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
-  var mapForm = map.querySelector('.map__filters');
-  var mapFormInputs = mapForm.querySelectorAll('input, select');
-
-  window.utility.disableInputs(mapFormInputs);
 
   function activateMap() {
     map.classList.remove('map--faded');
@@ -14,7 +10,6 @@
 
   function deactivateMap() {
     map.classList.add('map--faded');
-    window.utility.disableInputs(mapFormInputs);
   }
 
   function isMapActive() {

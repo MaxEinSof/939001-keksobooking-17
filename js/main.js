@@ -21,15 +21,20 @@
   }
 
   function onSuccess(data) {
-    window.map.addPins(window.filter.apply(data));
+    var filteredData = window.filter.apply(data);
+    window.map.addPins(filteredData);
     window.filter.activate();
-    window.filter.setSelectСhangeCallback(function () {
-      window.map.addPins(window.filter.apply(data));
-    });
+    window.filter.setСhangeCallback(
+      window.debounce(function () {
+        filteredData = window.filter.apply(data);
+        window.map.addPins(filteredData);
+      })
+    );
   }
 
   function onError() {
     window.map.deactivate();
+    window.filter.deactivate();
     window.form.deactivate();
     window.message.showError();
   }
