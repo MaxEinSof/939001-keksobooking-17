@@ -58,11 +58,11 @@
   }
 
   function isAdvertRoomsMatches(advert) {
-    return housingRoomsFilter.value === 'any' || advert.offer.rooms == housingRoomsFilter.value;
+    return housingRoomsFilter.value === 'any' || advert.offer.rooms === parseInt(housingRoomsFilter.value, 10);
   }
 
   function isAdvertGuestsMatches(advert) {
-    return housingGuestsFilter.value === 'any' || advert.offer.guests == housingGuestsFilter.value;
+    return housingGuestsFilter.value === 'any' || advert.offer.guests === parseInt(housingGuestsFilter.value, 10);
   }
 
   function isAdvertFeaturesMatches(advert, filteredFeatures) {
