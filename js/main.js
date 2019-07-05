@@ -21,11 +21,20 @@
   }
 
   function onSuccess(data) {
-    window.map.addPins(data);
+    var filteredData = window.filter.apply(data);
+    window.map.addPins(filteredData);
+    window.filter.activate();
+    window.filter.setСhangeCallback(
+        window.debounce(function () {
+          filteredData = window.filter.apply(data);
+          window.map.addPins(filteredData);
+        })
+    );
   }
 
   function onError() {
     window.map.deactivate();
+    window.filter.deactivate();
     window.form.deactivate();
     window.message.showError();
   }

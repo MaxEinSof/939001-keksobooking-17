@@ -3,19 +3,13 @@
 (function () {
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
-  var mapForm = map.querySelector('.map__filters');
-  var mapFormInputs = mapForm.querySelectorAll('input, select');
-
-  window.utility.disableInputs(mapFormInputs);
 
   function activateMap() {
     map.classList.remove('map--faded');
-    window.utility.enableInputs(mapFormInputs);
   }
 
   function deactivateMap() {
     map.classList.add('map--faded');
-    window.utility.disableInputs(mapFormInputs);
   }
 
   function isMapActive() {
@@ -23,6 +17,11 @@
   }
 
   function addPins(array) {
+    var oldPins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+    oldPins.forEach(function (oldPin) {
+      oldPin.remove();
+    });
+
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < array.length; i++) {
       fragment.appendChild(window.generatePin(array[i], i));
