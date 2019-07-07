@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var PHOTO_WIDTH = 45;
+  var PHOTO_HEIGHT = 40;
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var housingTypeMap = {
     'flat': 'Квартира',
@@ -42,8 +44,8 @@
     var photoElement = document.createElement('img');
     photoElement.src = src;
     photoElement.classList.add('popup__photo');
-    photoElement.width = '45';
-    photoElement.height = '40';
+    photoElement.width = PHOTO_WIDTH;
+    photoElement.height = PHOTO_HEIGHT;
     photoElement.alt = 'Фотография жилья';
     return photoElement;
   }
