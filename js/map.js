@@ -29,10 +29,15 @@
     mapPins.appendChild(fragment);
   }
 
+  function addCard(array) {
+    map.insertBefore(window.generateCard(array[0]), document.querySelector('.map__filters-container'));
+  }
+
   window.map = {
     activate: activateMap,
     deactivate: deactivateMap,
     isActive: isMapActive,
-    addPins: addPins
+    addPins: addPins,
+    addCard: addCard
   };
 })();
