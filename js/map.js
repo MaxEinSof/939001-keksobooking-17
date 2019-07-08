@@ -29,8 +29,8 @@
     mapPins.appendChild(fragment);
   }
 
-  function addCard(array) {
-    map.insertBefore(window.generateCard(array[0]), document.querySelector('.map__filters-container'));
+  function addCard(object) {
+    map.insertBefore(window.generateCard(object), document.querySelector('.map__filters-container'));
   }
 
   window.map = {
