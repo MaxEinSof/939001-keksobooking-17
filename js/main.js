@@ -23,6 +23,7 @@
   function onSuccess(data) {
     var filteredData = window.filter.apply(data);
     window.map.addPins(filteredData);
+    window.map.addCard(filteredData[0]);
     window.filter.activate();
     window.filter.setСhangeCallback(
         window.debounce(function () {
