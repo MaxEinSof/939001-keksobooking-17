@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var ESC_KEYCODE = 27;
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
 
@@ -23,14 +24,44 @@
     });
 
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(window.generatePin(array[i], i));
-    }
+
+    array.forEach(function (object, i) {
+      var newPin = window.generatePin(object, i);
+
+      newPin.addEventListener('click', function () {
+        var mapCard = map.querySelector('.map__card');
+        if (mapCard) {
+          mapCard.remove();
+        }
+        addCard(object);
+      });
+
+      fragment.appendChild(newPin);
+    });
+
     mapPins.appendChild(fragment);
   }
 
   function addCard(object) {
-    map.insertBefore(window.generateCard(object), document.querySelector('.map__filters-container'));
+    var newCard = window.generateCard(object);
+
+    newCard.querySelector('.popup__close').addEventListener('click', function () {
+      closeCard();
+    });
+    document.addEventListener('keydown', onCardEscPress);
+
+    function onCardEscPress(evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        closeCard();
+      }
+    }
+
+    function closeCard() {
+      newCard.remove();
+      document.removeEventListener('keydown', onCardEscPress);
+    }
+
+    map.insertBefore(newCard, document.querySelector('.map__filters-container'));
   }
 
   window.map = {
