@@ -11,7 +11,7 @@
     'palace': 'Дворец'
   };
 
-  function generateCard(similarAd) {
+  function generateCard(similarAd, callback) {
     var card = cardTemplate.cloneNode(true);
     card.querySelector('.popup__title').textContent = similarAd.offer.title;
     card.querySelector('.popup__text--address').textContent = similarAd.offer.address;
@@ -28,6 +28,10 @@
 
     similarAd.offer.photos.forEach(function (src) {
       card.querySelector('.popup__photos').appendChild(addPhoto(src));
+    });
+
+    card.querySelector('.popup__close').addEventListener('click', function () {
+      callback();
     });
 
     return card;
