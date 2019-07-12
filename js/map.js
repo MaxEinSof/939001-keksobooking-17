@@ -27,8 +27,8 @@
 
     var fragment = document.createDocumentFragment();
 
-    array.forEach(function (object, i) {
-      var newPin = window.generatePin(object, i);
+    array.forEach(function (object) {
+      var newPin = window.generatePin(object);
 
       newPin.addEventListener('click', function () {
         addCard(object);

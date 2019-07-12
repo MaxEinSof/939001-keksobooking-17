@@ -21,6 +21,7 @@
   }
 
   function onSuccess(data) {
+    window.utility.setIds(data);
     var filteredData = window.filter.apply(data);
     window.map.addPins(filteredData);
     window.filter.activate();

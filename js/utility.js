@@ -13,8 +13,15 @@
     }
   }
 
+  function setIds(array) {
+    array.forEach(function (object, i) {
+      object.id = i;
+    });
+  }
+
   window.utility = {
     disableInputs: disableInputs,
-    enableInputs: enableInputs
+    enableInputs: enableInputs,
+    setIds: setIds
   };
 })();
