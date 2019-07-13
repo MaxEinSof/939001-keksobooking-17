@@ -40,9 +40,9 @@
       if (!availableCapacity.includes(capacitySelect.value)) {
         var errorMessage = null;
 
-        if (roomsSelect.value == MIN_NUMBER_OF_ROOMS) {
+        if (+roomsSelect.value === MIN_NUMBER_OF_ROOMS) {
           errorMessage = 'Ошибка! В ' + roomsSelect.value + ' комнатe может находиться ' + availableCapacity[0] + ' гость';
-        } else if (roomsSelect.value == MAX_NUMBER_OF_ROOMS) {
+        } else if (+roomsSelect.value === MAX_NUMBER_OF_ROOMS) {
           errorMessage = 'Ошибка! ' + roomsSelect.value + ' комнат не для гостей';
         } else {
           errorMessage = 'Ошибка! В ' + roomsSelect.value + ' комнатах могут находиться от ' + availableCapacity[0] + ' до ' + availableCapacity[availableCapacity.length - 1] + ' гостей';
