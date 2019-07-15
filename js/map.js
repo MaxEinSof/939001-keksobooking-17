@@ -39,6 +39,10 @@
 
       newPin.setClickCallback(function () {
         addCard(object);
+
+        activeCard.setCloseCallback(function () {
+          newPin.deactivate();
+        });
       });
 
       pins.push(newPin.element);
@@ -55,11 +59,6 @@
     }
 
     activeCard = window.generateCard(object);
-
-    activeCard.setCloseCallback(function () {
-      newPin.element.classList.remove('map__pin--active');
-    });
-
     map.insertBefore(activeCard.element, mapFiltersElement);
   }
 

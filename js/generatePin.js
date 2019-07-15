@@ -4,22 +4,31 @@
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-  var clickCallback = null;
 
   function generatePin(similarAd) {
     var pinElement = generatePinElement(similarAd);
+    var clickCallback = null;
 
     pinElement.addEventListener('click', function () {
-      pinElement.classList.add('map__pin--active');
-
       if (clickCallback) {
         clickCallback();
       }
+
+      pinElement.classList.add('map__pin--active');
     });
+
+    function setClickCallback(fn) {
+      clickCallback = fn;
+    }
+
+    function deactivatePin() {
+      pinElement.classList.remove('map__pin--active');
+    }
 
     return {
       element: pinElement,
-      setClickCallback: setClickCallback
+      setClickCallback: setClickCallback,
+      deactivate: deactivatePin
     };
   }
 
@@ -31,10 +40,6 @@
     pinElement.querySelector('img').alt = similarAd.offer.title;
     pinElement.dataset.pinId = similarAd.id;
     return pinElement;
-  }
-
-  function setClickCallback(fn) {
-    clickCallback = fn;
   }
 
   window.generatePin = generatePin;
