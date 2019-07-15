@@ -12,6 +12,7 @@
     'palace': 'Дворец'
   };
   var cardElement = null;
+  var closeCallback = null;
 
   function generateCard(similarAd) {
     cardElement = generateCardElement(similarAd);
@@ -23,7 +24,8 @@
 
     return {
       element: cardElement,
-      close: closeCard
+      close: closeCard,
+      setCloseCallback: setCloseCallback
     };
   }
 
@@ -34,8 +36,16 @@
   }
 
   function closeCard() {
+    if (closeCallback) {
+      closeCallback();
+    }
+
     cardElement.remove();
     document.removeEventListener('keydown', onCardEscPress);
+  }
+
+  function setCloseCallback(fn) {
+    closeCallback = fn;
   }
 
   function generateCardElement(similarAd) {

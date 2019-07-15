@@ -37,13 +37,13 @@
     array.forEach(function (object) {
       var newPin = window.generatePin(object);
 
-      newPin.addEventListener('click', function () {
+      newPin.setClickCallback(function () {
         addCard(object);
       });
 
-      pins.push(newPin);
+      pins.push(newPin.element);
 
-      fragment.appendChild(newPin);
+      fragment.appendChild(newPin.element);
     });
 
     mapPins.appendChild(fragment);
@@ -55,6 +55,11 @@
     }
 
     activeCard = window.generateCard(object);
+
+    activeCard.setCloseCallback(function () {
+      newPin.element.classList.remove('map__pin--active');
+    });
+
     map.insertBefore(activeCard.element, mapFiltersElement);
   }
 
