@@ -2,13 +2,13 @@
 
 (function () {
   var NUMBER_OF_DISPLAYED_ADS = 5;
-  var mapForm = document.querySelector('.map__filters');
-  var mapFilters = mapForm.querySelectorAll('input, select');
-  var housingTypeFilter = mapForm.querySelector('#housing-type');
-  var housingPriceFilter = mapForm.querySelector('#housing-price');
-  var housingRoomsFilter = mapForm.querySelector('#housing-rooms');
-  var housingGuestsFilter = mapForm.querySelector('#housing-guests');
-  var housingFeaturesFilters = Array.from(mapForm.querySelectorAll('input[name=features]'));
+  var filtersForm = document.querySelector('.map__filters');
+  var filters = filtersForm.querySelectorAll('input, select');
+  var housingTypeFilter = filtersForm.querySelector('#housing-type');
+  var housingPriceFilter = filtersForm.querySelector('#housing-price');
+  var housingRoomsFilter = filtersForm.querySelector('#housing-rooms');
+  var housingGuestsFilter = filtersForm.querySelector('#housing-guests');
+  var housingFeaturesFilters = Array.from(filtersForm.querySelectorAll('input[name=features]'));
   var сhangeCallback = null;
   var pricesMap = {
     'middle': {
@@ -25,11 +25,11 @@
     }
   };
 
-  window.utility.disableInputs(mapFilters);
+  window.utility.disableInputs(filters);
 
-  mapForm.addEventListener('change', onMapFormСhange);
+  filtersForm.addEventListener('change', onFiltersFormСhange);
 
-  function onMapFormСhange() {
+  function onFiltersFormСhange() {
     сhangeCallback();
   }
 
@@ -72,11 +72,11 @@
   }
 
   function activateFilters() {
-    window.utility.enableInputs(mapFilters);
+    window.utility.enableInputs(filters);
   }
 
   function deactivateFilters() {
-    window.utility.disableInputs(mapFilters);
+    window.utility.disableInputs(filters);
   }
 
   function setСhangeCallback(fn) {
