@@ -12,7 +12,7 @@
   var messageElementMap = {
     'success': successMessageElement,
     'error': errorMessageElement
-  }
+  };
 
   function showSuccessMessage() {
     showMessage('success');

@@ -49,25 +49,25 @@
   }
 
   function generateCardElement(similarAd) {
-    var cardElement = cardTemplate.cloneNode(true);
-    cardElement.querySelector('.popup__title').textContent = similarAd.offer.title;
-    cardElement.querySelector('.popup__text--address').textContent = similarAd.offer.address;
-    cardElement.querySelector('.popup__text--price').textContent = similarAd.offer.price + '₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = housingTypeMap[similarAd.offer.type];
-    cardElement.querySelector('.popup__text--capacity').textContent = similarAd.offer.rooms + ' комнаты для ' + similarAd.offer.guests + ' гостей';
-    cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + similarAd.offer.checkin + ', выезд до ' + similarAd.offer.checkout;
-    cardElement.querySelector('.popup__description').textContent = similarAd.offer.description;
-    cardElement.querySelector('.popup__avatar').src = similarAd.author.avatar;
+    var card = cardTemplate.cloneNode(true);
+    card.querySelector('.popup__title').textContent = similarAd.offer.title;
+    card.querySelector('.popup__text--address').textContent = similarAd.offer.address;
+    card.querySelector('.popup__text--price').textContent = similarAd.offer.price + '₽/ночь';
+    card.querySelector('.popup__type').textContent = housingTypeMap[similarAd.offer.type];
+    card.querySelector('.popup__text--capacity').textContent = similarAd.offer.rooms + ' комнаты для ' + similarAd.offer.guests + ' гостей';
+    card.querySelector('.popup__text--time').textContent = 'Заезд после ' + similarAd.offer.checkin + ', выезд до ' + similarAd.offer.checkout;
+    card.querySelector('.popup__description').textContent = similarAd.offer.description;
+    card.querySelector('.popup__avatar').src = similarAd.author.avatar;
 
     similarAd.offer.features.forEach(function (name) {
-      cardElement.querySelector('.popup__features').appendChild(addFeature(name));
+      card.querySelector('.popup__features').appendChild(addFeature(name));
     });
 
     similarAd.offer.photos.forEach(function (src) {
-      cardElement.querySelector('.popup__photos').appendChild(addPhoto(src));
+      card.querySelector('.popup__photos').appendChild(addPhoto(src));
     });
 
-    return cardElement;
+    return card;
   }
 
   function addFeature(name) {

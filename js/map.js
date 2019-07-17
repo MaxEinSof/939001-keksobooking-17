@@ -48,9 +48,7 @@
       newPin.setClickCallback(function () {
         addCard(object);
 
-        activeCard.setCloseCallback(function () {
-          newPin.deactivate();
-        });
+        activeCard.setCloseCallback(newPin.deactivate);
       });
 
       pins.push(newPin.element);
