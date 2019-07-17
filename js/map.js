@@ -13,6 +13,14 @@
 
   function deactivateMap() {
     map.classList.add('map--faded');
+
+    if (+pins.length) {
+      removePins();
+    }
+
+    if (activeCard) {
+      activeCard.close();
+    }
   }
 
   function isMapActive() {

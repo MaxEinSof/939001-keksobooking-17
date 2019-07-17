@@ -20,6 +20,14 @@
     }
   }
 
+  function resetPage() {
+    window.map.deactivate();
+    window.filter.deactivate();
+    window.form.deactivate();
+    window.mainPin.resetPosition();
+    window.form.setAddress(window.mainPin.getCoords());
+  }
+
   function onSuccess(data) {
     window.utility.setIds(data);
     var filteredData = window.filter.apply(data);
@@ -31,12 +39,16 @@
           window.map.addPins(filteredData);
         })
     );
+    window.form.setSuccessCallback(function () {
+      resetPage();
+      window.message.showSuccess();
+    });
+    window.form.setErrorCallback(window.message.showError);
+    window.form.setResetCallback(resetPage);
   }
 
   function onError() {
-    window.map.deactivate();
-    window.filter.deactivate();
-    window.form.deactivate();
+    resetPage();
     window.message.showError();
   }
 })();

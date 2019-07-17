@@ -76,6 +76,7 @@
   }
 
   function deactivateFilters() {
+    filtersForm.reset();
     window.utility.disableInputs(filters);
   }
 
