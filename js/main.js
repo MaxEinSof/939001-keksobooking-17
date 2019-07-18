@@ -16,7 +16,7 @@
     if (!window.map.isActive()) {
       window.map.activate();
       window.form.activate();
-      window.load(onSuccess, onError);
+      window.server.load(onSuccess, onError);
     }
   }
 
@@ -39,11 +39,12 @@
           window.map.addPins(filteredData);
         })
     );
-    window.form.setSuccessCallback(function () {
-      resetPage();
-      window.message.showSuccess();
+    window.form.setSubmitCallback(function (adFormData) {
+      window.server.upload(adFormData, function () {
+        resetPage();
+        window.message.showSuccess();
+      }, window.message.showError);
     });
-    window.form.setErrorCallback(window.message.showError);
     window.form.setResetCallback(resetPage);
   }
 

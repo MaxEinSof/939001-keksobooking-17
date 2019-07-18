@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var URL = 'https://js.dump.academy/keksobooking';
   var MIN_NUMBER_OF_ROOMS = 1;
   var MAX_NUMBER_OF_ROOMS = 100;
   var adForm = document.querySelector('.ad-form');
@@ -27,8 +26,7 @@
     '100': ['0']
   };
   var resetButton = adForm.querySelector('.ad-form__reset');
-  var successCallback = null;
-  var errorCallback = null;
+  var submitCallback = null;
   var resetCallback = null;
 
   window.utility.disableInputs(adFormInputs);
@@ -63,32 +61,8 @@
   function onAdFormSubmit(evt) {
     evt.preventDefault();
 
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.timeout = 10000;
-
-    xhr.open('POST', URL);
-    xhr.send(new FormData(adForm));
-
-    xhr.addEventListener('load', onXhrLoad);
-    xhr.addEventListener('error', onXhrError);
-    xhr.addEventListener('timeout', onXhrTimeout);
-
-    function onXhrLoad() {
-      if (xhr.status === 200) {
-        successCallback();
-      } else {
-        errorCallback();
-      }
-    }
-
-    function onXhrError() {
-      errorCallback();
-    }
-
-    function onXhrTimeout() {
-      errorCallback();
-    }
+    var adFormData = new FormData(adForm);
+    submitCallback(adFormData);
   }
 
   function activateAdForm() {
@@ -123,12 +97,8 @@
     resetCallback();
   }
 
-  function setSuccessCallback(fn) {
-    successCallback = fn;
-  }
-
-  function setErrorCallback(fn) {
-    errorCallback = fn;
+  function setSubmitCallback(fn) {
+    submitCallback = fn;
   }
 
   function setResetCallback(fn) {
@@ -139,8 +109,7 @@
     activate: activateAdForm,
     deactivate: deactivateAdForm,
     setAddress: setAddress,
-    setSuccessCallback: setSuccessCallback,
-    setErrorCallback: setErrorCallback,
+    setSubmitCallback: setSubmitCallback,
     setResetCallback: setResetCallback
   };
 })();
