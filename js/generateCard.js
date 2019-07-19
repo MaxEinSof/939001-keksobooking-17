@@ -3,6 +3,7 @@
 (function () {
   var PHOTO_WIDTH = 45;
   var PHOTO_HEIGHT = 40;
+  var ESC_KEYCODE = 27;
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var housingTypeMap = {
     'flat': 'Квартира',
@@ -10,8 +11,44 @@
     'house': 'Дом',
     'palace': 'Дворец'
   };
+  var cardElement = null;
+  var closeCallback = null;
 
-  function generateCard(similarAd, callback) {
+  function generateCard(similarAd) {
+    cardElement = generateCardElement(similarAd);
+
+    cardElement.querySelector('.popup__close').addEventListener('click', function () {
+      closeCard();
+    });
+    document.addEventListener('keydown', onCardEscPress);
+
+    return {
+      element: cardElement,
+      close: closeCard,
+      setCloseCallback: setCloseCallback
+    };
+  }
+
+  function onCardEscPress(evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closeCard();
+    }
+  }
+
+  function closeCard() {
+    if (closeCallback) {
+      closeCallback();
+    }
+
+    cardElement.remove();
+    document.removeEventListener('keydown', onCardEscPress);
+  }
+
+  function setCloseCallback(fn) {
+    closeCallback = fn;
+  }
+
+  function generateCardElement(similarAd) {
     var card = cardTemplate.cloneNode(true);
     card.querySelector('.popup__title').textContent = similarAd.offer.title;
     card.querySelector('.popup__text--address').textContent = similarAd.offer.address;
@@ -28,10 +65,6 @@
 
     similarAd.offer.photos.forEach(function (src) {
       card.querySelector('.popup__photos').appendChild(addPhoto(src));
-    });
-
-    card.querySelector('.popup__close').addEventListener('click', function () {
-      callback();
     });
 
     return card;

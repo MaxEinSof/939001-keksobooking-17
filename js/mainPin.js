@@ -3,6 +3,8 @@
 (function () {
   var MAIN_PIN_WIDTH = 62;
   var MAIN_PIN_HEIGHT = 82;
+  var START_COORD_X = '570px';
+  var START_COORD_Y = '375px';
   var MIN_COORD_X = 0;
   var MAX_COORD_X = 1200;
   var MIN_COORD_Y = 130;
@@ -86,6 +88,11 @@
     };
   }
 
+  function resetPinPosition() {
+    mapPinMain.style.left = START_COORD_X;
+    mapPinMain.style.top = START_COORD_Y;
+  }
+
   function setMouseDownCallback(fn) {
     mouseDownCallback = fn;
   }
@@ -107,6 +114,7 @@
     setMouseDownCallback: setMouseDownCallback,
     setMouseMoveCallback: setMouseMoveCallback,
     setMouseUpCallback: setMouseUpCallback,
-    setCheckTail: setCheckTail
+    setCheckTail: setCheckTail,
+    resetPosition: resetPinPosition
   };
 })();

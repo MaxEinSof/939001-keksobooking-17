@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-  var ESC_KEYCODE = 27;
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
   var mapFiltersElement = map.querySelector('.map__filters-container');
+  var pins = [];
   var activeCard = null;
 
   function activateMap() {
@@ -13,28 +13,47 @@
 
   function deactivateMap() {
     map.classList.add('map--faded');
+
+    if (+pins.length) {
+      removePins();
+    }
+
+    if (activeCard) {
+      activeCard.close();
+    }
   }
 
   function isMapActive() {
     return !map.classList.contains('map--faded');
   }
 
-  function addPins(array) {
-    var oldPins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
-    oldPins.forEach(function (oldPin) {
-      oldPin.remove();
+  function removePins() {
+    pins.forEach(function (pin) {
+      pin.remove();
     });
+
+    pins = [];
+  }
+
+  function addPins(array) {
+    if (+pins.length) {
+      removePins();
+    }
 
     var fragment = document.createDocumentFragment();
 
     array.forEach(function (object) {
       var newPin = window.generatePin(object);
 
-      newPin.addEventListener('click', function () {
+      newPin.setClickCallback(function () {
         addCard(object);
+
+        activeCard.setCloseCallback(newPin.deactivate);
       });
 
-      fragment.appendChild(newPin);
+      pins.push(newPin.element);
+
+      fragment.appendChild(newPin.element);
     });
 
     mapPins.appendChild(fragment);
@@ -42,25 +61,11 @@
 
   function addCard(object) {
     if (activeCard) {
-      closeCard();
+      activeCard.close();
     }
 
-    activeCard = window.generateCard(object, closeCard);
-
-    document.addEventListener('keydown', onCardEscPress);
-
-    map.insertBefore(activeCard, mapFiltersElement);
-  }
-
-  function onCardEscPress(evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      closeCard();
-    }
-  }
-
-  function closeCard() {
-    activeCard.remove();
-    document.removeEventListener('keydown', onCardEscPress);
+    activeCard = window.generateCard(object);
+    map.insertBefore(activeCard.element, mapFiltersElement);
   }
 
   window.map = {

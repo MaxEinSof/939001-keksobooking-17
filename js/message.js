@@ -6,39 +6,60 @@
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var errorMessageElement = errorTemplate.cloneNode(true);
   var errorButton = errorMessageElement.querySelector('.error__button');
+  var successTemplate = document.querySelector('#success').content.querySelector('.success');
+  var successMessageElement = successTemplate.cloneNode(true);
+  var currentMessageElement = null;
+  var messageElementMap = {
+    'success': successMessageElement,
+    'error': errorMessageElement
+  };
 
-  function showErrorMessageElement() {
-    page.appendChild(errorMessageElement);
+  function showSuccessMessage() {
+    showMessage('success');
+  }
 
-    errorButton.addEventListener('click', onErrorButtonClick);
-    document.addEventListener('keydown', onMessageEscPress);
-    document.addEventListener('click', onMessageClick);
+  function showErrorMessage() {
+    showMessage('error');
+  }
 
-    function onErrorButtonClick(evt) {
-      evt.preventDefault();
+  function showMessage(type) {
+    var messageElement = messageElementMap[type];
+    page.appendChild(messageElement);
+    currentMessageElement = messageElement;
+
+    if (type === 'error') {
+      errorButton.addEventListener('click', onErrorButtonClick);
+    }
+
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentEscPress);
+  }
+
+  function onDocumentClick(evt) {
+    if (!evt.target.matches('.error *') && !evt.target.matches('.success *')) {
       closeMessage();
-    }
-
-    function onMessageEscPress(evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
-        closeMessage();
-      }
-    }
-
-    function onMessageClick(evt) {
-      if (!evt.target.matches('.error *')) {
-        closeMessage();
-      }
-    }
-
-    function closeMessage() {
-      errorMessageElement.remove();
-      document.removeEventListener('keydown', onMessageEscPress);
-      document.removeEventListener('click', onMessageClick);
     }
   }
 
+  function onDocumentEscPress(evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closeMessage();
+    }
+  }
+
+  function onErrorButtonClick(evt) {
+    evt.preventDefault();
+    closeMessage();
+  }
+
+  function closeMessage() {
+    currentMessageElement.remove();
+    document.removeEventListener('click', onDocumentClick);
+    document.removeEventListener('keydown', onDocumentEscPress);
+  }
+
   window.message = {
-    showError: showErrorMessageElement
+    showSuccess: showSuccessMessage,
+    showError: showErrorMessage
   };
 })();
