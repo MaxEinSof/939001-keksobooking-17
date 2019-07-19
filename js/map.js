@@ -13,8 +13,11 @@
 
   function deactivateMap() {
     map.classList.add('map--faded');
+    clearMap();
+  }
 
-    if (+pins.length) {
+  function clearMap() {
+    if (pins.length) {
       removePins();
     }
 
@@ -36,9 +39,7 @@
   }
 
   function addPins(array) {
-    if (+pins.length) {
-      removePins();
-    }
+    clearMap();
 
     var fragment = document.createDocumentFragment();
 
