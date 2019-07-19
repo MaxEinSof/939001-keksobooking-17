@@ -1,31 +1,33 @@
 'use strict';
 
 (function () {
-  var MIN_NUMBER_OF_ROOMS = 1;
-  var MAX_NUMBER_OF_ROOMS = 100;
+  var NumberOfRooms = {
+    MIN: 1,
+    MAX: 100
+  };
   var adForm = document.querySelector('.ad-form');
   var adFormInputs = adForm.querySelectorAll('input, select, textarea');
   var addressInput = adForm.querySelector('#address');
   var adPriceInput = adForm.querySelector('#price');
   var adTypeSelect = adForm.querySelector('#type');
+  var adFormTime = adForm.querySelector('.ad-form__element--time');
+  var timeInSelect = adForm.querySelector('#timein');
+  var timeOutSelect = adForm.querySelector('#timeout');
+  var roomsSelect = adForm.querySelector('#room_number');
+  var capacitySelect = adForm.querySelector('#capacity');
+  var resetButton = adForm.querySelector('.ad-form__reset');
   var minPriceMap = {
     'bungalo': 0,
     'flat': 1000,
     'house': 5000,
     'palace': 10000
   };
-  var adFormTime = adForm.querySelector('.ad-form__element--time');
-  var timeInSelect = adForm.querySelector('#timein');
-  var timeOutSelect = adForm.querySelector('#timeout');
-  var roomsSelect = adForm.querySelector('#room_number');
-  var capacitySelect = adForm.querySelector('#capacity');
   var capacityMap = {
     '1': ['1'],
     '2': ['1', '2'],
     '3': ['1', '2', '3'],
     '100': ['0']
   };
-  var resetButton = adForm.querySelector('.ad-form__reset');
   var submitCallback = null;
   var resetCallback = null;
 
@@ -45,9 +47,9 @@
       if (!availableCapacity.includes(capacitySelect.value)) {
         var errorMessage = null;
 
-        if (+roomsSelect.value === MIN_NUMBER_OF_ROOMS) {
+        if (+roomsSelect.value === NumberOfRooms.MIN) {
           errorMessage = 'Ошибка! В ' + roomsSelect.value + ' комнатe может находиться ' + availableCapacity[0] + ' гость';
-        } else if (+roomsSelect.value === MAX_NUMBER_OF_ROOMS) {
+        } else if (+roomsSelect.value === NumberOfRooms.MAX) {
           errorMessage = 'Ошибка! ' + roomsSelect.value + ' комнат не для гостей';
         } else {
           errorMessage = 'Ошибка! В ' + roomsSelect.value + ' комнатах могут находиться от ' + availableCapacity[0] + ' до ' + availableCapacity[availableCapacity.length - 1] + ' гостей';

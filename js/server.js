@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var TIMEOUT = 10000;
+  var SUCCESS_CODE = 200;
   var Url = {
     LOAD: 'https://js.dump.academy/keksobooking/data',
     UPLOAD: 'https://js.dump.academy/keksobooking'
@@ -21,14 +23,14 @@
   function createRequest(onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-    xhr.timeout = 10000;
+    xhr.timeout = TIMEOUT;
 
     xhr.addEventListener('load', onXhrLoad);
     xhr.addEventListener('error', onXhrError);
     xhr.addEventListener('timeout', onXhrTimeout);
 
     function onXhrLoad() {
-      if (xhr.status === 200) {
+      if (xhr.status === SUCCESS_CODE) {
         onSuccess(xhr.response);
       } else {
         onError();

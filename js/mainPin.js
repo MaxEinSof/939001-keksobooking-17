@@ -1,21 +1,27 @@
 'use strict';
 
 (function () {
-  var MAIN_PIN_WIDTH = 62;
-  var MAIN_PIN_HEIGHT = 82;
-  var START_COORD_X = '570px';
-  var START_COORD_Y = '375px';
-  var MIN_COORD_X = 0;
-  var MAX_COORD_X = 1200;
-  var MIN_COORD_Y = 130;
-  var MAX_COORD_Y = 630;
-  var mapPinMain = document.querySelector('.map__pin--main');
+  var MainPin = {
+    WIDTH: 62,
+    HEIGHT: 82
+  };
+  var StartCoord = {
+    X: 570,
+    Y: 375
+  };
+  var Coord = {
+    MIN_X: 0,
+    MAX_X: 1200,
+    MIN_Y: 130,
+    MAX_Y: 630
+  };
+  var mainPin = document.querySelector('.map__pin--main');
   var mouseDownCallback = null;
   var mouseMoveCallback = null;
   var mouseUpCallback = null;
   var hasTail = null;
 
-  mapPinMain.addEventListener('mousedown', onPinMouseDown);
+  mainPin.addEventListener('mousedown', onPinMouseDown);
 
   function onPinMouseDown(evt) {
     evt.preventDefault();
@@ -41,20 +47,20 @@
       };
 
       var currentCoords = {
-        x: mapPinMain.offsetLeft - pinShift.x,
-        y: mapPinMain.offsetTop - pinShift.y
+        x: mainPin.offsetLeft - pinShift.x,
+        y: mainPin.offsetTop - pinShift.y
       };
 
       var isCoordsValid = validateCoords(currentCoords);
 
       if (isCoordsValid.x) {
         startCoords.x = moveEvt.clientX;
-        mapPinMain.style.left = currentCoords.x + 'px';
+        mainPin.style.left = currentCoords.x + 'px';
       }
 
       if (isCoordsValid.y) {
         startCoords.y = moveEvt.clientY;
-        mapPinMain.style.top = currentCoords.y + 'px';
+        mainPin.style.top = currentCoords.y + 'px';
       }
 
       if (mouseMoveCallback) {
@@ -76,21 +82,21 @@
 
   function getCoords() {
     return {
-      x: mapPinMain.offsetLeft + Math.round(MAIN_PIN_WIDTH / 2),
-      y: mapPinMain.offsetTop + (hasTail() ? MAIN_PIN_HEIGHT : MAIN_PIN_HEIGHT / 2)
+      x: mainPin.offsetLeft + Math.round(MainPin.WIDTH / 2),
+      y: mainPin.offsetTop + (hasTail() ? MainPin.HEIGHT : MainPin.HEIGHT / 2)
     };
   }
 
   function validateCoords(coords) {
     return {
-      x: coords.x >= MIN_COORD_X - MAIN_PIN_WIDTH / 2 && coords.x <= MAX_COORD_X - MAIN_PIN_WIDTH / 2,
-      y: coords.y >= MIN_COORD_Y - MAIN_PIN_HEIGHT && coords.y <= MAX_COORD_Y - MAIN_PIN_HEIGHT
+      x: coords.x >= Coord.MIN_X - MainPin.WIDTH / 2 && coords.x <= Coord.MAX_X - MainPin.WIDTH / 2,
+      y: coords.y >= Coord.MIN_Y - MainPin.HEIGHT && coords.y <= Coord.MAX_Y - MainPin.HEIGHT
     };
   }
 
   function resetPinPosition() {
-    mapPinMain.style.left = START_COORD_X;
-    mapPinMain.style.top = START_COORD_Y;
+    mainPin.style.left = StartCoord.X + 'px';
+    mainPin.style.top = StartCoord.Y + 'px';
   }
 
   function setMouseDownCallback(fn) {
