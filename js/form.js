@@ -7,6 +7,7 @@
   };
   var adForm = document.querySelector('.ad-form');
   var adFormInputs = adForm.querySelectorAll('input, select, textarea');
+  var titleInput = adForm.querySelector('#title');
   var addressInput = adForm.querySelector('#address');
   var adPriceInput = adForm.querySelector('#price');
   var adTypeSelect = adForm.querySelector('#type');
@@ -15,6 +16,7 @@
   var timeOutSelect = adForm.querySelector('#timeout');
   var roomsSelect = adForm.querySelector('#room_number');
   var capacitySelect = adForm.querySelector('#capacity');
+  var submitButton = adForm.querySelector('.ad-form__submit');
   var resetButton = adForm.querySelector('.ad-form__reset');
   var minPriceMap = {
     'bungalo': 0,
@@ -31,12 +33,14 @@
   var submitCallback = null;
   var resetCallback = null;
 
+  setMinPrice();
   window.utility.disableInputs(adFormInputs);
 
   adForm.addEventListener('change', onAdFormСhange);
   adForm.addEventListener('submit', onAdFormSubmit);
-  adTypeSelect.addEventListener('click', onTypeSelectClick);
+  adTypeSelect.addEventListener('change', onTypeSelectChange);
   adFormTime.addEventListener('click', onAdFormTimeClick);
+  submitButton.addEventListener('click', onSubmitButtonClick);
   resetButton.addEventListener('click', onResetButtonClick);
 
   function onAdFormСhange(evt) {
@@ -57,6 +61,22 @@
 
         capacitySelect.setCustomValidity(errorMessage);
       }
+
+      removeInvalidClass(capacitySelect);
+    }
+
+    if (evt.target === titleInput) {
+      removeInvalidClass(titleInput);
+    }
+
+    if (evt.target === adPriceInput) {
+      removeInvalidClass(adPriceInput);
+    }
+  }
+
+  function removeInvalidClass(input) {
+    if (input.classList.contains('invalid-input')) {
+      input.classList.remove('invalid-input');
     }
   }
 
@@ -82,15 +102,32 @@
     addressInput.value = coords.x + ', ' + coords.y;
   }
 
-  function onTypeSelectClick() {
-    var minValue = minPriceMap[adTypeSelect.value];
-    adPriceInput.min = minValue;
-    adPriceInput.placeholder = minValue;
+  function onTypeSelectChange() {
+    setMinPrice();
+  }
+
+  function setMinPrice() {
+    var minPrice = minPriceMap[adTypeSelect.value];
+    adPriceInput.min = minPrice;
+    adPriceInput.placeholder = minPrice;
   }
 
   function onAdFormTimeClick(evt) {
     var changedSelect = evt.target === timeInSelect ? timeOutSelect : timeInSelect;
     changedSelect.value = evt.target.value;
+  }
+
+  function onSubmitButtonClick() {
+    adFormInputs.forEach(function (input) {
+      if (!input.validity.valid) {
+        input.classList.add('invalid-input');
+      }
+    });
+
+    var availableCapacity = capacityMap[roomsSelect.value];
+    if (!availableCapacity.includes(capacitySelect.value)) {
+      capacitySelect.classList.add('invalid-input');
+    }
   }
 
   function onResetButtonClick(evt) {
