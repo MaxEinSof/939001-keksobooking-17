@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var ESC_KEYCODE = 27;
   var Photo = {
     WIDTH: 45,
     HEIGHT: 40
@@ -32,7 +31,7 @@
   }
 
   function onCardEscPress(evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (window.utility.isEscPressed(evt)) {
       closeCard();
     }
   }
