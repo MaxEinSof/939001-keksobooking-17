@@ -45,7 +45,7 @@
     var filteredFeatures = getFilteredFeatures();
 
     return array.filter(function (advert) {
-      return isAdvertTypeMatches(advert) && isAdvertPriceMatches(advert) && isAdvertRoomsMatches(advert) && isAdvertGuestsMatches(advert) && isAdvertFeaturesMatches(advert, filteredFeatures);
+      return advert.hasOwnProperty('offer') && isAdvertTypeMatches(advert) && isAdvertPriceMatches(advert) && isAdvertRoomsMatches(advert) && isAdvertGuestsMatches(advert) && isAdvertFeaturesMatches(advert, filteredFeatures);
     }).slice(0, NUMBER_OF_DISPLAYED_ADS);
   }
 
