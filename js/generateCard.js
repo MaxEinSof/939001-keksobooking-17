@@ -1,9 +1,10 @@
 'use strict';
 
 (function () {
-  var PHOTO_WIDTH = 45;
-  var PHOTO_HEIGHT = 40;
-  var ESC_KEYCODE = 27;
+  var Photo = {
+    WIDTH: 45,
+    HEIGHT: 40
+  };
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var housingTypeMap = {
     'flat': 'Квартира',
@@ -14,8 +15,8 @@
   var cardElement = null;
   var closeCallback = null;
 
-  function generateCard(similarAd) {
-    cardElement = generateCardElement(similarAd);
+  function generateCard(advert) {
+    cardElement = generateCardElement(advert);
 
     cardElement.querySelector('.popup__close').addEventListener('click', function () {
       closeCard();
@@ -30,7 +31,7 @@
   }
 
   function onCardEscPress(evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (window.utility.isEscPressed(evt)) {
       closeCard();
     }
   }
@@ -48,26 +49,49 @@
     closeCallback = fn;
   }
 
-  function generateCardElement(similarAd) {
+  function generateCardElement(advert) {
     var card = cardTemplate.cloneNode(true);
-    card.querySelector('.popup__title').textContent = similarAd.offer.title;
-    card.querySelector('.popup__text--address').textContent = similarAd.offer.address;
-    card.querySelector('.popup__text--price').textContent = similarAd.offer.price + '₽/ночь';
-    card.querySelector('.popup__type').textContent = housingTypeMap[similarAd.offer.type];
-    card.querySelector('.popup__text--capacity').textContent = similarAd.offer.rooms + ' комнаты для ' + similarAd.offer.guests + ' гостей';
-    card.querySelector('.popup__text--time').textContent = 'Заезд после ' + similarAd.offer.checkin + ', выезд до ' + similarAd.offer.checkout;
-    card.querySelector('.popup__description').textContent = similarAd.offer.description;
-    card.querySelector('.popup__avatar').src = similarAd.author.avatar;
+    var сardBlocks = {
+      titleElement: card.querySelector('.popup__title'),
+      addressElement: card.querySelector('.popup__text--address'),
+      priceElement: card.querySelector('.popup__text--price'),
+      typeElement: card.querySelector('.popup__type'),
+      capacityElement: card.querySelector('.popup__text--capacity'),
+      timeElement: card.querySelector('.popup__text--time'),
+      descriptionElement: card.querySelector('.popup__description'),
+      avatarElement: card.querySelector('.popup__avatar'),
+      featuresElement: card.querySelector('.popup__features'),
+      photosElement: card.querySelector('.popup__photos')
+    };
 
-    similarAd.offer.features.forEach(function (name) {
-      card.querySelector('.popup__features').appendChild(addFeature(name));
+    сardBlocks.titleElement.textContent = advert.offer.title;
+    сardBlocks.addressElement.textContent = advert.offer.address;
+    сardBlocks.priceElement.textContent = advert.offer.price + '₽/ночь';
+    сardBlocks.typeElement.textContent = housingTypeMap[advert.offer.type];
+    сardBlocks.capacityElement.textContent = advert.offer.rooms + ' комнаты для ' + advert.offer.guests + ' гостей';
+    сardBlocks.timeElement.textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
+    сardBlocks.descriptionElement.textContent = advert.offer.description;
+    сardBlocks.avatarElement.src = advert.author.avatar;
+
+    advert.offer.features.forEach(function (name) {
+      сardBlocks.featuresElement.appendChild(addFeature(name));
     });
 
-    similarAd.offer.photos.forEach(function (src) {
-      card.querySelector('.popup__photos').appendChild(addPhoto(src));
+    advert.offer.photos.forEach(function (src) {
+      сardBlocks.photosElement.appendChild(addPhoto(src));
     });
+
+    removeEmptyBlocks(сardBlocks);
 
     return card;
+  }
+
+  function removeEmptyBlocks(сardBlocks) {
+    for (var element in сardBlocks) {
+      if (!сardBlocks[element].innerHTML && !сardBlocks[element].src) {
+        сardBlocks[element].remove();
+      }
+    }
   }
 
   function addFeature(name) {
@@ -81,8 +105,8 @@
     var photoElement = document.createElement('img');
     photoElement.src = src;
     photoElement.classList.add('popup__photo');
-    photoElement.width = PHOTO_WIDTH;
-    photoElement.height = PHOTO_HEIGHT;
+    photoElement.width = Photo.WIDTH;
+    photoElement.height = Photo.HEIGHT;
     photoElement.alt = 'Фотография жилья';
     return photoElement;
   }

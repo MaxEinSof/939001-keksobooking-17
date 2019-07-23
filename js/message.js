@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var ESC_KEYCODE = 27;
   var page = document.querySelector('main');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var errorMessageElement = errorTemplate.cloneNode(true);
@@ -42,7 +41,7 @@
   }
 
   function onDocumentEscPress(evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
+    if (window.utility.isEscPressed(evt)) {
       closeMessage();
     }
   }
