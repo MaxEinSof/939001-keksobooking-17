@@ -62,68 +62,40 @@
     var featuresElement = card.querySelector('.popup__features');
     var photosElement = card.querySelector('.popup__photos');
 
-    if (advert.offer.title) {
-      titleElement.textContent = advert.offer.title;
-    } else {
-      titleElement.remove();
-    }
+    titleElement.textContent = advert.offer.title;
+    addressElement.textContent = advert.offer.address;
+    priceElement.textContent = advert.offer.price + '₽/ночь';
+    typeElement.textContent = housingTypeMap[advert.offer.type];
+    capacityElement.textContent = advert.offer.rooms + ' комнаты для ' + advert.offer.guests + ' гостей';
+    timeElement.textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
+    descriptionElement.textContent = advert.offer.description;
+    avatarElement.src = advert.author.avatar;
 
-    if (advert.offer.address) {
-      addressElement.textContent = advert.offer.address;
-    } else {
-      addressElement.remove();
-    }
+    advert.offer.features.forEach(function (name) {
+      featuresElement.appendChild(addFeature(name));
+    });
 
-    if (advert.offer.price) {
-      priceElement.textContent = advert.offer.price + '₽/ночь';
-    } else {
-      priceElement.remove();
-    }
+    advert.offer.photos.forEach(function (src) {
+      photosElement.appendChild(addPhoto(src));
+    });
 
-    if (advert.offer.type) {
-      typeElement.textContent = housingTypeMap[advert.offer.type];
-    } else {
-      typeElement.remove();
-    }
+    var сardBlocks = {
+      titleElement: titleElement,
+      addressElement: addressElement,
+      priceElement: priceElement,
+      typeElement: typeElement,
+      capacityElement: capacityElement,
+      timeElement: timeElement,
+      descriptionElement: descriptionElement,
+      avatarElement: avatarElement,
+      featuresElement: featuresElement,
+      photosElement: photosElement
+    };
 
-    if (advert.offer.rooms && advert.offer.guests) {
-      capacityElement.textContent = advert.offer.rooms + ' комнаты для ' + advert.offer.guests + ' гостей';
-    } else {
-      capacityElement.remove();
-    }
-
-    if (advert.offer.checkin && advert.offer.checkout) {
-      timeElement.textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
-    } else {
-      timeElement.remove();
-    }
-
-    if (advert.offer.description) {
-      descriptionElement.textContent = advert.offer.description;
-    } else {
-      descriptionElement.remove();
-    }
-
-    if (advert.author.avatar) {
-      avatarElement.src = advert.author.avatar;
-    } else {
-      avatarElement.remove();
-    }
-
-    if (advert.offer.features && advert.offer.features.length) {
-      advert.offer.features.forEach(function (name) {
-        featuresElement.appendChild(addFeature(name));
-      });
-    } else {
-      featuresElement.remove();
-    }
-
-    if (advert.offer.photos && advert.offer.photos.length) {
-      advert.offer.photos.forEach(function (src) {
-        photosElement.appendChild(addPhoto(src));
-      });
-    } else {
-      photosElement.remove();
+    for (var element in сardBlocks) {
+      if (!сardBlocks[element].innerHTML && !сardBlocks[element].src) {
+        сardBlocks[element].remove();
+      }
     }
 
     return card;

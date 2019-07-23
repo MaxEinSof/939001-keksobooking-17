@@ -7,7 +7,6 @@
   };
   var adForm = document.querySelector('.ad-form');
   var adFormInputs = adForm.querySelectorAll('input, select, textarea');
-  var titleInput = adForm.querySelector('#title');
   var addressInput = adForm.querySelector('#address');
   var adPriceInput = adForm.querySelector('#price');
   var adTypeSelect = adForm.querySelector('#type');
@@ -34,6 +33,7 @@
   var resetCallback = null;
 
   setMinPrice();
+  validateCapacity();
   window.utility.disableInputs(adFormInputs);
 
   adForm.addEventListener('change', onAdFormСhange);
@@ -45,38 +45,32 @@
 
   function onAdFormСhange(evt) {
     if (evt.target === roomsSelect || evt.target === capacitySelect) {
-      var availableCapacity = capacityMap[roomsSelect.value];
-      capacitySelect.setCustomValidity('');
+      validateCapacity();
+    }
 
-      if (!availableCapacity.includes(capacitySelect.value)) {
-        var errorMessage = null;
-
-        if (+roomsSelect.value === NumberOfRooms.MIN) {
-          errorMessage = 'Ошибка! В ' + roomsSelect.value + ' комнатe может находиться ' + availableCapacity[0] + ' гость';
-        } else if (+roomsSelect.value === NumberOfRooms.MAX) {
-          errorMessage = 'Ошибка! ' + roomsSelect.value + ' комнат не для гостей';
-        } else {
-          errorMessage = 'Ошибка! В ' + roomsSelect.value + ' комнатах могут находиться от ' + availableCapacity[0] + ' до ' + availableCapacity[availableCapacity.length - 1] + ' гостей';
-        }
-
-        capacitySelect.setCustomValidity(errorMessage);
+    adFormInputs.forEach(function (input) {
+      if (input.classList.contains('invalid-input') && input.validity.valid) {
+        input.classList.remove('invalid-input');
       }
-
-      removeInvalidClass(capacitySelect);
-    }
-
-    if (evt.target === titleInput) {
-      removeInvalidClass(titleInput);
-    }
-
-    if (evt.target === adPriceInput) {
-      removeInvalidClass(adPriceInput);
-    }
+    });
   }
 
-  function removeInvalidClass(input) {
-    if (input.classList.contains('invalid-input')) {
-      input.classList.remove('invalid-input');
+  function validateCapacity() {
+    var availableCapacity = capacityMap[roomsSelect.value];
+    capacitySelect.setCustomValidity('');
+
+    if (!availableCapacity.includes(capacitySelect.value)) {
+      var errorMessage = null;
+
+      if (+roomsSelect.value === NumberOfRooms.MIN) {
+        errorMessage = 'Ошибка! В ' + roomsSelect.value + ' комнатe может находиться ' + availableCapacity[0] + ' гость';
+      } else if (+roomsSelect.value === NumberOfRooms.MAX) {
+        errorMessage = 'Ошибка! ' + roomsSelect.value + ' комнат не для гостей';
+      } else {
+        errorMessage = 'Ошибка! В ' + roomsSelect.value + ' комнатах могут находиться от ' + availableCapacity[0] + ' до ' + availableCapacity[availableCapacity.length - 1] + ' гостей';
+      }
+
+      capacitySelect.setCustomValidity(errorMessage);
     }
   }
 
