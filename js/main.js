@@ -26,6 +26,7 @@
     window.form.deactivate();
     window.mainPin.resetPosition();
     window.form.setAddress(window.mainPin.getCoords());
+    window.prewiewImages.remove();
   }
 
   function onSuccess(data) {
