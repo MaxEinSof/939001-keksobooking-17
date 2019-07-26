@@ -2,14 +2,6 @@
 
 (function () {
   var NUMBER_OF_DISPLAYED_ADS = 5;
-  var filtersForm = document.querySelector('.map__filters');
-  var filters = filtersForm.querySelectorAll('input, select');
-  var housingTypeFilter = filtersForm.querySelector('#housing-type');
-  var housingPriceFilter = filtersForm.querySelector('#housing-price');
-  var housingRoomsFilter = filtersForm.querySelector('#housing-rooms');
-  var housingGuestsFilter = filtersForm.querySelector('#housing-guests');
-  var housingFeaturesFilters = Array.from(filtersForm.querySelectorAll('input[name=features]'));
-  var сhangeCallback = null;
   var pricesMap = {
     'middle': {
       min: 10000,
@@ -24,13 +16,21 @@
       max: Infinity
     }
   };
+  var changeCallback = null;
+  var filtersForm = document.querySelector('.map__filters');
+  var filters = filtersForm.querySelectorAll('input, select');
+  var housingTypeFilter = filtersForm.querySelector('#housing-type');
+  var housingPriceFilter = filtersForm.querySelector('#housing-price');
+  var housingRoomsFilter = filtersForm.querySelector('#housing-rooms');
+  var housingGuestsFilter = filtersForm.querySelector('#housing-guests');
+  var housingFeaturesFilters = Array.from(filtersForm.querySelectorAll('input[name=features]'));
 
   window.utility.disableInputs(filters);
 
   filtersForm.addEventListener('change', onFiltersFormСhange);
 
   function onFiltersFormСhange() {
-    сhangeCallback();
+    changeCallback();
   }
 
   function getFilteredFeatures() {
@@ -45,27 +45,27 @@
     var filteredFeatures = getFilteredFeatures();
 
     return array.filter(function (advert) {
-      return advert.offer && isAdvertTypeMatches(advert) && isAdvertPriceMatches(advert) && isAdvertRoomsMatches(advert) && isAdvertGuestsMatches(advert) && isAdvertFeaturesMatches(advert, filteredFeatures);
+      return advert.offer && hasAdvertTypeMatches(advert) && hasAdvertPriceMatches(advert) && hasAdvertRoomsMatches(advert) && hasAdvertGuestsMatches(advert) && hasAdvertFeaturesMatches(advert, filteredFeatures);
     }).slice(0, NUMBER_OF_DISPLAYED_ADS);
   }
 
-  function isAdvertTypeMatches(advert) {
+  function hasAdvertTypeMatches(advert) {
     return housingTypeFilter.value === 'any' || advert.offer.type === housingTypeFilter.value;
   }
 
-  function isAdvertPriceMatches(advert) {
+  function hasAdvertPriceMatches(advert) {
     return housingPriceFilter.value === 'any' || advert.offer.price >= pricesMap[housingPriceFilter.value].min && advert.offer.price <= pricesMap[housingPriceFilter.value].max;
   }
 
-  function isAdvertRoomsMatches(advert) {
+  function hasAdvertRoomsMatches(advert) {
     return housingRoomsFilter.value === 'any' || advert.offer.rooms === parseInt(housingRoomsFilter.value, 10);
   }
 
-  function isAdvertGuestsMatches(advert) {
+  function hasAdvertGuestsMatches(advert) {
     return housingGuestsFilter.value === 'any' || advert.offer.guests === parseInt(housingGuestsFilter.value, 10);
   }
 
-  function isAdvertFeaturesMatches(advert, filteredFeatures) {
+  function hasAdvertFeaturesMatches(advert, filteredFeatures) {
     return filteredFeatures.every(function (feature) {
       return advert.offer.features.includes(feature);
     });
@@ -80,14 +80,14 @@
     window.utility.disableInputs(filters);
   }
 
-  function setСhangeCallback(fn) {
-    сhangeCallback = fn;
+  function setChangeCallback(fn) {
+    changeCallback = fn;
   }
 
   window.filter = {
     apply: filtrateData,
     activate: activateFilters,
     deactivate: deactivateFilters,
-    setСhangeCallback: setСhangeCallback
+    setChangeCallback: setChangeCallback
   };
 })();

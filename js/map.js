@@ -1,11 +1,11 @@
 'use strict';
 
 (function () {
+  var pins = [];
+  var activeCard = null;
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
   var mapFiltersElement = map.querySelector('.map__filters-container');
-  var pins = [];
-  var activeCard = null;
 
   function activateMap() {
     map.classList.remove('map--faded');

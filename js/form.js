@@ -5,18 +5,6 @@
     MIN: 1,
     MAX: 100
   };
-  var adForm = document.querySelector('.ad-form');
-  var adFormInputs = adForm.querySelectorAll('input, select, textarea');
-  var addressInput = adForm.querySelector('#address');
-  var adPriceInput = adForm.querySelector('#price');
-  var adTypeSelect = adForm.querySelector('#type');
-  var adFormTime = adForm.querySelector('.ad-form__element--time');
-  var timeInSelect = adForm.querySelector('#timein');
-  var timeOutSelect = adForm.querySelector('#timeout');
-  var roomsSelect = adForm.querySelector('#room_number');
-  var capacitySelect = adForm.querySelector('#capacity');
-  var submitButton = adForm.querySelector('.ad-form__submit');
-  var resetButton = adForm.querySelector('.ad-form__reset');
   var minPriceMap = {
     'bungalo': 0,
     'flat': 1000,
@@ -31,7 +19,21 @@
   };
   var submitCallback = null;
   var resetCallback = null;
+  var adForm = document.querySelector('.ad-form');
+  var adFormInputs = adForm.querySelectorAll('input, select, textarea');
+  var addressInput = adForm.querySelector('#address');
+  var adPriceInput = adForm.querySelector('#price');
+  var adTypeSelect = adForm.querySelector('#type');
+  var adFormTime = adForm.querySelector('.ad-form__element--time');
+  var timeInSelect = adForm.querySelector('#timein');
+  var timeOutSelect = adForm.querySelector('#timeout');
+  var roomsSelect = adForm.querySelector('#room_number');
+  var capacitySelect = adForm.querySelector('#capacity');
+  var submitButton = adForm.querySelector('.ad-form__submit');
+  var resetButton = adForm.querySelector('.ad-form__reset');
 
+  var clearPreview = window.addPhotoPreview(adForm);
+  window.sortPhotos(adForm);
   setMinPrice();
   validateCapacity();
   window.utility.disableInputs(adFormInputs);
@@ -87,6 +89,7 @@
   }
 
   function deactivateAdForm() {
+    clearPreview();
     adForm.reset();
     adForm.classList.add('ad-form--disabled');
     window.utility.disableInputs(adFormInputs);

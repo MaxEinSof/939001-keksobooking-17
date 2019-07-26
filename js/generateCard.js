@@ -5,7 +5,6 @@
     WIDTH: 45,
     HEIGHT: 40
   };
-  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var housingTypeMap = {
     'flat': 'Квартира',
     'bungalo': 'Бунгало',
@@ -14,6 +13,7 @@
   };
   var cardElement = null;
   var closeCallback = null;
+  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   function generateCard(advert) {
     cardElement = generateCardElement(advert);
@@ -51,7 +51,7 @@
 
   function generateCardElement(advert) {
     var card = cardTemplate.cloneNode(true);
-    var сardBlocks = {
+    var cardBlocks = {
       titleElement: card.querySelector('.popup__title'),
       addressElement: card.querySelector('.popup__text--address'),
       priceElement: card.querySelector('.popup__text--price'),
@@ -64,32 +64,32 @@
       photosElement: card.querySelector('.popup__photos')
     };
 
-    сardBlocks.titleElement.textContent = advert.offer.title;
-    сardBlocks.addressElement.textContent = advert.offer.address;
-    сardBlocks.priceElement.textContent = advert.offer.price + '₽/ночь';
-    сardBlocks.typeElement.textContent = housingTypeMap[advert.offer.type];
-    сardBlocks.capacityElement.textContent = advert.offer.rooms + ' комнаты для ' + advert.offer.guests + ' гостей';
-    сardBlocks.timeElement.textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
-    сardBlocks.descriptionElement.textContent = advert.offer.description;
-    сardBlocks.avatarElement.src = advert.author.avatar;
+    cardBlocks.titleElement.textContent = advert.offer.title;
+    cardBlocks.addressElement.textContent = advert.offer.address;
+    cardBlocks.priceElement.textContent = advert.offer.price + '₽/ночь';
+    cardBlocks.typeElement.textContent = housingTypeMap[advert.offer.type];
+    cardBlocks.capacityElement.textContent = advert.offer.rooms + ' комнаты для ' + advert.offer.guests + ' гостей';
+    cardBlocks.timeElement.textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
+    cardBlocks.descriptionElement.textContent = advert.offer.description;
+    cardBlocks.avatarElement.src = advert.author.avatar;
 
     advert.offer.features.forEach(function (name) {
-      сardBlocks.featuresElement.appendChild(addFeature(name));
+      cardBlocks.featuresElement.appendChild(addFeature(name));
     });
 
     advert.offer.photos.forEach(function (src) {
-      сardBlocks.photosElement.appendChild(addPhoto(src));
+      cardBlocks.photosElement.appendChild(addPhoto(src));
     });
 
-    removeEmptyBlocks(сardBlocks);
+    removeEmptyBlocks(cardBlocks);
 
     return card;
   }
 
-  function removeEmptyBlocks(сardBlocks) {
-    for (var element in сardBlocks) {
-      if (!сardBlocks[element].innerHTML && !сardBlocks[element].src) {
-        сardBlocks[element].remove();
+  function removeEmptyBlocks(cardBlocks) {
+    for (var element in cardBlocks) {
+      if (!cardBlocks[element].innerHTML && !cardBlocks[element].src) {
+        cardBlocks[element].remove();
       }
     }
   }

@@ -1,13 +1,13 @@
 'use strict';
 
 (function () {
+  var currentMessageElement = null;
   var page = document.querySelector('main');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var errorMessageElement = errorTemplate.cloneNode(true);
   var errorButton = errorMessageElement.querySelector('.error__button');
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var successMessageElement = successTemplate.cloneNode(true);
-  var currentMessageElement = null;
   var messageElementMap = {
     'success': successMessageElement,
     'error': errorMessageElement

@@ -9,26 +9,21 @@
     X: 570,
     Y: 375
   };
-  var Coord = {
+  var BoundingCoord = {
     MIN_X: 0,
     MAX_X: 1200,
     MIN_Y: 130,
     MAX_Y: 630
   };
-  var mainPin = document.querySelector('.map__pin--main');
-  var mouseDownCallback = null;
   var mouseMoveCallback = null;
   var mouseUpCallback = null;
   var hasTail = null;
+  var mainPin = document.querySelector('.map__pin--main');
 
   mainPin.addEventListener('mousedown', onPinMouseDown);
 
   function onPinMouseDown(evt) {
     evt.preventDefault();
-
-    if (mouseDownCallback) {
-      mouseDownCallback();
-    }
 
     var startCoords = {
       x: evt.clientX,
@@ -89,18 +84,14 @@
 
   function validateCoords(coords) {
     return {
-      x: coords.x >= Coord.MIN_X - MainPin.WIDTH / 2 && coords.x <= Coord.MAX_X - MainPin.WIDTH / 2,
-      y: coords.y >= Coord.MIN_Y - MainPin.HEIGHT && coords.y <= Coord.MAX_Y - MainPin.HEIGHT
+      x: coords.x >= BoundingCoord.MIN_X - MainPin.WIDTH / 2 && coords.x <= BoundingCoord.MAX_X - MainPin.WIDTH / 2,
+      y: coords.y >= BoundingCoord.MIN_Y - MainPin.HEIGHT && coords.y <= BoundingCoord.MAX_Y - MainPin.HEIGHT
     };
   }
 
   function resetPinPosition() {
     mainPin.style.left = StartCoord.X + 'px';
     mainPin.style.top = StartCoord.Y + 'px';
-  }
-
-  function setMouseDownCallback(fn) {
-    mouseDownCallback = fn;
   }
 
   function setMouseMoveCallback(fn) {
@@ -117,7 +108,6 @@
 
   window.mainPin = {
     getCoords: getCoords,
-    setMouseDownCallback: setMouseDownCallback,
     setMouseMoveCallback: setMouseMoveCallback,
     setMouseUpCallback: setMouseUpCallback,
     setCheckTail: setCheckTail,
