@@ -73,7 +73,6 @@
     activate: activateMap,
     deactivate: deactivateMap,
     isActive: isMapActive,
-    addPins: addPins,
-    addCard: addCard
+    addPins: addPins
   };
 })();
